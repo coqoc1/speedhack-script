@@ -1,0 +1,169 @@
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+local enabled = false
+local bodyVelocity = nil
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "SpeedHackUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = CoreGui
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 180, 0, 60)
+frame.Position = UDim2.new(0, 20, 0, 20)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.BackgroundTransparency = 0.1
+frame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(255, 85, 170)
+stroke.Thickness = 2
+stroke.Parent = frame
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0.5, 0)
+title.BackgroundTransparency = 1
+title.Text = "Speed Hack"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.Parent = frame
+
+-- Status Text
+local status = Instance.new("TextLabel")
+status.Size = UDim2.new(1, 0, 0.3, 0)
+status.Position = UDim2.new(0, 0, 0.5, 0)
+status.BackgroundTransparency = 1
+status.Text = "OFF"
+status.TextColor3 = Color3.fromRGB(255, 100, 100)
+status.TextScaled = true
+status.Font = Enum.Font.Gotham
+status.Parent = frame
+
+-- Toggle Button
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0.8, 0, 0.35, 0)
+button.Position = UDim2.new(0.1, 0, 1.1, 0)
+button.BackgroundColor3 = Color3.fromRGB(255, 85, 170)
+button.Text = "Toggle (F)"
+button.TextColor3 = Color3.new(1, 1, 1)
+button.TextScaled = true
+button.Font = Enum.Font.GothamBold
+button.Parent = frame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 8)
+buttonCorner.Parent = button
+
+-- Draggable
+local dragging = false
+local dragStart, startPos
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+frame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+		local delta = input.Position - dragStart
+		frame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+-- Speed Function
+local function toggleSpeed()
+	enabled = not enabled
+
+	if enabled then
+		status.Text = "ON"
+		status.TextColor3 = Color3.fromRGB(100, 255, 100)
+		TweenService:Create(status, TweenInfo.new(0.3), {
+			TextColor3 = Color3.fromRGB(100, 255, 100)
+		}):Play()
+
+		bodyVelocity = Instance.new("BodyVelocity")
+		bodyVelocity.MaxForce = Vector3.new(40000, 0, 40000)
+		bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+		bodyVelocity.Parent = rootPart
+
+		-- Maintain velocity
+		task.spawn(function()
+			while enabled and bodyVelocity and bodyVelocity.Parent do
+				if humanoid.MoveDirection.Magnitude > 0 then
+					bodyVelocity.Velocity = humanoid.MoveDirection * 50
+				else
+					bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+				end
+				task.wait()
+			end
+		end)
+
+	else
+		status.Text = "OFF"
+		status.TextColor3 = Color3.fromRGB(255, 100, 100)
+		TweenService:Create(stroke, TweenInfo.new(0.3), {
+			Color = Color3.fromRGB(255, 85, 170)
+		}):Play()
+
+		if bodyVelocity then
+			bodyVelocity:Destroy()
+			bodyVelocity = nil
+		end
+	end
+end
+
+-- Toggle via button or key
+button.MouseButton1Click:Connect(toggleSpeed)
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if not gameProcessed and input.KeyCode == Enum.KeyCode.F then
+		toggleSpeed()
+	end
+end)
+
+-- Reconnect on respawn
+player.CharacterAdded:Connect(function(newChar)
+	character = newChar
+	humanoid = character:WaitForChild("Humanoid")
+	rootPart = character:WaitForChild("HumanoidRootPart")
+
+	if enabled and bodyVelocity then
+		bodyVelocity:Destroy()
+	end
+
+	if enabled then
+		task.wait(0.5)
+		toggleSpeed()
+		toggleSpeed()
+	end
+end)
